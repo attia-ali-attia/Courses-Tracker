@@ -1,3 +1,19 @@
 <resources>
-    <string name="app_name">Courses Tracker</string>
+    <string name="app_name">كنافه بالقشطه</string>
+    <string name="there_is_nothing">مفيش حاجه</string>
+    <string name="number_of_lessons">عدد الحصص: %d</string>
+    <string name="number_of_finished_lessons">عدد الحصص الي خلصت: %d</string>
+    <string name="cancel">الغاء</string>
+    <string name="insert">إضافة</string>
+    <string name="update">تعديل</string>
+    <string name="confirm">تأكيد</string>
+    <string name="click_again_to_delete">اضغط مرة أخرى للحذف</string>
+    <string name="name">الاسم</string>
+    <string name="price">السعر</string>
+    <string name="enter_number_of_lessons">عدد الحصص</string>
+    <string name="enter_number_of_finished_lessons">عدد الحصص المنتهية</string>
+    <string name="fill_empty_fields">عبي المعلومات بعد إزنك....</string>
+    <string name="paid">دفع</string>
+    <string name="phone_number">رقم الجوال</string>
+    <string name="this_paid">دفع: %d</string>
 </resources>
