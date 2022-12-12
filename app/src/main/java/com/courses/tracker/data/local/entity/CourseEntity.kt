@@ -12,6 +12,8 @@ data class CourseEntity(
     val name: String,
     @ColumnInfo(name="schedule_days")
     val scheduleDays: List<Int>,
+    @ColumnInfo(name="schedule_hours")
+    val scheduleHours: String,
     val price: Int,
     @ColumnInfo(name="number_of_lessons")
     val numberOfLessons: Int,

@@ -16,4 +16,9 @@ interface StudentInfoDao : BaseDao<StudentInfoEntity> {
     """
     )
     fun getStudentsInCourse(courseId: Int): Flow<List<StudentInfoEntity>>
+
+    @Query("""
+        DELETE FROM student_info WHERE course_id = :courseId
+    """)
+    suspend fun deleteAllStudentsInCourse(courseId: Int)
 }

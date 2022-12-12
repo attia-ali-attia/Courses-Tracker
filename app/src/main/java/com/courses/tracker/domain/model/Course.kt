@@ -7,7 +7,7 @@ import kotlinx.parcelize.Parcelize
 @Parcelize
 data class Course(
     val name: String,
-    val scheduleDays: Set<DayOfWeek>,
+    val scheduleDays: HashMap<DayOfWeek, String>,
     val price: Int,
     val numberOfLessons: Int,
     val numberOfFinishedLessons: Int,

@@ -1,6 +1,6 @@
 package com.courses.tracker.ui.theme
 
-import androidx.compose.material.Typography
+import androidx.compose.material3.Typography
 import androidx.compose.ui.text.TextStyle
 import androidx.compose.ui.text.font.Font
 import androidx.compose.ui.text.font.FontFamily
@@ -21,29 +21,24 @@ val Cairo = FontFamily(
 
 // Set of Material typography styles to start with
 val Typography = Typography(
-    body1 = TextStyle(
+    bodyMedium = TextStyle(
         fontFamily = Cairo,
         fontWeight = FontWeight.Normal,
         fontSize = 16.sp
     ),
-    h4 = TextStyle(
+    headlineMedium = TextStyle(
         fontFamily = Cairo,
         fontWeight = FontWeight.ExtraBold,
         fontSize = 24.sp
     ),
-    h5 = TextStyle(
+    headlineLarge = TextStyle(
         fontFamily = Cairo,
         fontWeight = FontWeight.Bold,
         fontSize = 20.sp
     ),
-    subtitle1 = TextStyle(
+    bodyLarge = TextStyle(
         fontFamily = Cairo,
         fontWeight = FontWeight.SemiBold,
-        fontSize = 14.sp
-    ),
-    button = TextStyle(
-        fontFamily = Cairo,
-        fontWeight = FontWeight.W500,
         fontSize = 14.sp
     )
 /* Other default text styles to override

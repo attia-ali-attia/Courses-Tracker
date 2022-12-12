@@ -7,8 +7,8 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyRow
 import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.MaterialTheme
-import androidx.compose.material.Text
+import androidx.compose.material3.MaterialTheme
+import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
@@ -34,10 +34,10 @@ fun CourseItem(
     onClick: () -> Unit,
     onLongClick: () -> Unit,
     onDeleteClicked: () -> Unit,
-    priceColor: Color = MaterialTheme.colors.primary,
-    borderColor: Color = MaterialTheme.colors.onSecondary,
+    priceColor: Color = MaterialTheme.colorScheme.primary,
+    borderColor: Color = MaterialTheme.colorScheme.onSecondary,
     fontWeight: FontWeight = FontWeight.SemiBold,
-    fontSize: TextUnit = MaterialTheme.typography.subtitle1.fontSize,
+    fontSize: TextUnit = MaterialTheme.typography.bodyMedium.fontSize,
 ) {
     val backgroundColors =
         listOf("CDF0EA", "F9F9F9", "ECC5FB", "FAF4B7", "B1D7B4", "F29393", "59CE8F")
@@ -80,9 +80,9 @@ fun CourseItem(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            items(course.scheduleDays.toList()) { day ->
+            items(course.scheduleDays.keys.toList()) { day ->
                 Text(
-                    text = day.name.substring(0, 3),
+                    text = day.name.substring(0, 3) + " " + stringResource(id = R.string.session_time, course.scheduleDays.get(day)!!),
                     fontWeight = fontWeight,
                     fontSize = fontSize,
                     modifier = Modifier
@@ -131,10 +131,9 @@ fun CourseItem(
                             deleteClickTimes++
                             toast.show()
                         }
-
                     }
                     .padding(8.dp),
-                colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
+                colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
             )
 
         }

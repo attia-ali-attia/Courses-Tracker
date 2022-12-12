@@ -1,13 +1,13 @@
 package com.courses.tracker.presentation.course_listings
 
+import android.app.TimePickerDialog
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.animation.animateContentSize
 import androidx.compose.animation.core.LinearOutSlowInEasing
 import androidx.compose.animation.core.animateFloatAsState
 import androidx.compose.animation.core.tween
-import androidx.compose.foundation.background
-import androidx.compose.foundation.border
-import androidx.compose.foundation.clickable
+import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.LazyRow
@@ -17,6 +17,7 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
@@ -40,16 +41,17 @@ import com.courses.tracker.domain.model.Course
 import com.courses.tracker.domain.model.DayOfWeek
 import com.courses.tracker.presentation.destinations.AddEditCourseDialogDestination
 import com.courses.tracker.presentation.destinations.StudentInfosScreenDestination
+import com.courses.tracker.presentation.student_infos.studentInfosActions
 import com.courses.tracker.ui.theme.Shapes
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import com.ramcosta.composedestinations.spec.DestinationStyle
+import java.util.*
 
-@ExperimentalMaterialApi
 @Composable
 internal fun ExpandableCard(
     title: String,
-    titleFontSize: TextUnit = MaterialTheme.typography.h5.fontSize,
+    titleFontSize: TextUnit = MaterialTheme.typography.headlineMedium.fontSize,
     titleFontWeight: FontWeight = FontWeight.Bold,
     onDeleteCourseClicked: (Course) -> Unit,
     courses: List<Course>,
@@ -70,8 +72,7 @@ internal fun ExpandableCard(
                 animationSpec = tween(
                     durationMillis = 300, easing = LinearOutSlowInEasing
                 )
-            ),
-        shape = shape
+            ), shape = shape
     ) {
         Column(modifier = Modifier
             .fillMaxWidth()
@@ -91,7 +92,7 @@ internal fun ExpandableCard(
                 )
                 IconButton(modifier = Modifier
                     .weight(1f)
-                    .alpha(ContentAlpha.medium)
+                    .alpha(0.5f)
                     .rotate(rotationState),
                     onClick = {
                         expandedState = !expandedState
@@ -104,7 +105,7 @@ internal fun ExpandableCard(
             }
             if (expandedState) {
                 LazyColumn {
-                    items(courses) { course ->
+                    items(courses, key = { it.id }) { course ->
                         CourseItem(course = course,
                             indexOfCourse = courses.indexOf(course),
                             onClick = {
@@ -127,18 +128,18 @@ internal fun ExpandableCard(
     }
 }
 
+@OptIn(ExperimentalFoundationApi::class, ExperimentalMaterial3Api::class)
 @Destination(style = DestinationStyle.Dialog.Default::class)
 @Composable
 fun AddEditCourseDialog(
-    navigator: DestinationsNavigator,
-    course: Course
+    navigator: DestinationsNavigator, course: Course
 ) {
 
     val new = course.name.isEmpty()
-    val action = if (new) actions?.onCourseInserted else actions?.onCourseUpdated
+    val action = if (new) courseActions?.onCourseInserted else courseActions?.onCourseUpdated
 
     var courseName by rememberSaveable { mutableStateOf(course.name) }
-    var courseSchedule by rememberSaveable { mutableStateOf(course.scheduleDays.toMutableSet()) }
+    var courseSchedule by rememberSaveable { mutableStateOf(course.scheduleDays) }
     var coursePrice by rememberSaveable { mutableStateOf(course.price) }
     var numberOfLessons by rememberSaveable { mutableStateOf(course.numberOfLessons) }
     var numberOfFinishedLessons by rememberSaveable { mutableStateOf(course.numberOfFinishedLessons) }
@@ -149,13 +150,11 @@ fun AddEditCourseDialog(
             OutlinedTextField(
                 value = courseName,
                 onValueChange = { value ->
-                    if (value.isNotEmpty())
-                        courseName = value
+                    if (value.isNotEmpty()) courseName = value
                 },
                 label = { Text(stringResource(id = R.string.name)) },
                 keyboardOptions = KeyboardOptions(
-                    keyboardType = KeyboardType.Text,
-                    imeAction = ImeAction.Next
+                    keyboardType = KeyboardType.Text, imeAction = ImeAction.Next
                 )
             )
 
@@ -172,27 +171,37 @@ fun AddEditCourseDialog(
                             )
                         )
                     }
-                    Text(text = day.name.substring(0, 3),
-                        color = if (dayContained) MaterialTheme.colors.onPrimary else MaterialTheme.colors.primary,
+                    Log.i("TAG", "AddEditCourseDialog: ${day.name} ${courseSchedule.get(day)}")
+                    val hourAndMinute = courseSchedule[day]?.split(":")
+                    val pickerDialog = showTimePicker(
+                        hourAndMinute?.firstOrNull()?.toIntOrNull(),
+                        hourAndMinute?.get(1)?.toIntOrNull()
+                    ) {
+                        courseSchedule[day] = it
+                        dayContained = true
+                    }
+                    Text(
+                        text = day.name.substring(0, 3),
+                        color = if (dayContained) MaterialTheme.colorScheme.onPrimary else MaterialTheme.colorScheme.primary,
                         modifier = Modifier
                             .padding(5.dp)
                             .border(
                                 if (dayContained) 0.dp else 1.dp,
-                                MaterialTheme.colors.onSecondary,
+                                MaterialTheme.colorScheme.onSecondary,
                                 RoundedCornerShape(2000F)
                             )
                             .background(
-                                if (dayContained) MaterialTheme.colors.primary
-                                else MaterialTheme.colors.onPrimary, RoundedCornerShape(2000F)
+                                if (dayContained) MaterialTheme.colorScheme.primary
+                                else MaterialTheme.colorScheme.surface, RoundedCornerShape(2000F)
                             )
-                            .clickable {
-                                dayContained = !dayContained
+                            .combinedClickable(onLongClick = {
+                                pickerDialog.show()
+                            }, onClick = {
                                 if (dayContained) {
-                                    courseSchedule.add(day)
-                                } else {
                                     courseSchedule.remove(day)
+                                    dayContained = !dayContained
                                 }
-                            }
+                            })
                             .padding(7.dp)
 
                     )
@@ -213,8 +222,7 @@ fun AddEditCourseDialog(
                     readOnly = !new,
                     label = { Text(stringResource(id = R.string.price)) },
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Next
+                        keyboardType = KeyboardType.Number, imeAction = ImeAction.Next
                     ),
                     modifier = Modifier
                         .weight(1F)
@@ -231,8 +239,7 @@ fun AddEditCourseDialog(
                     readOnly = !new,
                     label = { Text(stringResource(id = R.string.enter_number_of_lessons)) },
                     keyboardOptions = KeyboardOptions(
-                        keyboardType = KeyboardType.Number,
-                        imeAction = ImeAction.Done
+                        keyboardType = KeyboardType.Number, imeAction = ImeAction.Done
                     ),
                     modifier = Modifier
                         .weight(1F)
@@ -251,7 +258,7 @@ fun AddEditCourseDialog(
                     )
                     Icon(painter = painterResource(id = R.drawable.ic_add),
                         contentDescription = "",
-                        tint = MaterialTheme.colors.primary,
+                        tint = MaterialTheme.colorScheme.primary,
                         modifier = Modifier
                             .padding(5.dp)
                             .clickable {
@@ -264,7 +271,7 @@ fun AddEditCourseDialog(
             Row(
                 Modifier.align(Alignment.End), horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                TextButton(onClick = { actions?.onCancelClicked?.invoke() }) {
+                TextButton(onClick = { studentInfosActions?.onCancelClicked?.invoke() }) {
                     Text(
                         text = stringResource(id = R.string.cancel)
                     )
@@ -275,25 +282,20 @@ fun AddEditCourseDialog(
                     stringResource(R.string.fill_empty_fields),
                     Toast.LENGTH_SHORT
                 )
-                TextButton(
-                    onClick = {
-                        if (courseName.isNotEmpty() && courseSchedule.isNotEmpty() &&
-                            coursePrice != 0 && numberOfLessons != 0
-                        ) {
-                            action?.invoke(
-                                Course(
-                                    courseName,
-                                    courseSchedule,
-                                    coursePrice,
-                                    numberOfLessons,
-                                    numberOfFinishedLessons,
-                                    course.id
-                                )
+                TextButton(onClick = {
+                    if (courseName.isNotEmpty() && courseSchedule.isNotEmpty() && coursePrice != 0 && numberOfLessons != 0) {
+                        action?.invoke(
+                            Course(
+                                courseName,
+                                courseSchedule,
+                                coursePrice,
+                                numberOfLessons,
+                                numberOfFinishedLessons,
+                                course.id
                             )
-                        } else
-                            toast.show()
-                    }
-                ) {
+                        )
+                    } else toast.show()
+                }) {
                     Text(
                         text = if (new) stringResource(id = R.string.insert) else stringResource(id = R.string.update)
                     )
@@ -303,12 +305,50 @@ fun AddEditCourseDialog(
     }
 }
 
+@Composable
+fun showTimePicker(
+    hour: Int? = null,
+    minute: Int? = null,
+    onTimeSetListener: (String) -> Unit
+): TimePickerDialog {
+
+    val calendar = Calendar.getInstance()
+    val Ahour = calendar[Calendar.HOUR_OF_DAY]
+    val Aminute = calendar[Calendar.MINUTE]
+
+    val time = remember { mutableStateOf("") }
+
+    val timePickerDialog = TimePickerDialog(
+        LocalContext.current,
+        { _, hour: Int, minute: Int ->
+            val builder = StringBuilder()
+            if (hour <= 9)
+                builder.append("0$hour")
+            else
+                builder.append(hour.toString())
+            builder.append(":")
+            if (minute <= 9)
+                builder.append("0$minute")
+            else
+                builder.append(minute.toString())
+
+            time.value = builder.toString()
+            onTimeSetListener(time.value)
+        },
+        hour ?: Ahour, minute ?: Aminute, false,
+    )
+    timePickerDialog.setCancelable(false)
+
+    return timePickerDialog
+}
+
+
 internal data class AddInsertCourseDialogActions(
     val onCourseInserted: (Course) -> Unit,
     val onCourseUpdated: (Course) -> Unit,
     val onCancelClicked: () -> Unit
 )
 
-internal var actions: AddInsertCourseDialogActions? = null
+internal var courseActions: AddInsertCourseDialogActions? = null
 
-internal val emptyCourse = Course("", emptySet(), 0, 0, 0)
+internal val emptyCourse = Course("", HashMap(), 0, 0, 0)

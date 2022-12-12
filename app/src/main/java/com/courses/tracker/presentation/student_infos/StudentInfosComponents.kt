@@ -10,10 +10,10 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.*
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.ArrowDropDown
+import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.runtime.saveable.rememberSaveable
 import androidx.compose.ui.Alignment
-import androidx.compose.ui.Alignment.Companion.CenterVertically
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.rotate
 import androidx.compose.ui.graphics.Color
@@ -44,7 +44,7 @@ fun StudentInfoItem(
     ) {
         Column(
             Modifier
-                .border(1.dp, MaterialTheme.colors.primary)
+                .border(1.dp, MaterialTheme.colorScheme.primary)
                 .clickable {
                     onClick()
                 }
@@ -121,7 +121,7 @@ fun StudentInfoItem(
 
                         }
                         .padding(8.dp),
-                    colorFilter = ColorFilter.tint(MaterialTheme.colors.primary)
+                    colorFilter = ColorFilter.tint(MaterialTheme.colorScheme.primary)
                 )
 
 
@@ -132,6 +132,7 @@ fun StudentInfoItem(
     }
 }
 
+@OptIn(ExperimentalMaterial3Api::class)
 @Destination(style = DestinationStyle.Dialog.Default::class)
 @Composable
 fun AddEditStudentInfoDialog(
@@ -139,7 +140,7 @@ fun AddEditStudentInfoDialog(
 ) {
 
     val new = studnetInfo.name.isEmpty()
-    val action = if (new) actions?.onStudentInfoInserted else actions?.onStudentInfoUpdated
+    val action = if (new) studentInfosActions?.onStudentInfoInserted else studentInfosActions?.onStudentInfoUpdated
 
     var studentName by rememberSaveable { mutableStateOf(studnetInfo.name) }
     var studentPhone by rememberSaveable { mutableStateOf(studnetInfo.phone) }
@@ -205,7 +206,7 @@ fun AddEditStudentInfoDialog(
             Row(
                 Modifier.align(Alignment.End), horizontalArrangement = Arrangement.SpaceEvenly
             ) {
-                TextButton(onClick = { actions?.onCancelClicked?.invoke() }) {
+                TextButton(onClick = { studentInfosActions?.onCancelClicked?.invoke() }) {
                     Text(
                         text = stringResource(id = R.string.cancel)
                     )
@@ -248,4 +249,4 @@ internal data class AddInsertStudentInfoDialogActions(
 )
 
 
-internal var actions: AddInsertStudentInfoDialogActions? = null
+internal var studentInfosActions: AddInsertStudentInfoDialogActions? = null

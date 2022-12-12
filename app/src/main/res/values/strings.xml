@@ -16,4 +16,5 @@
     <string name="paid">دفع</string>
     <string name="phone_number">رقم الجوال</string>
     <string name="this_paid">دفع: %d</string>
+    <string name="session_time">at %1$s</string>
 </resources>
