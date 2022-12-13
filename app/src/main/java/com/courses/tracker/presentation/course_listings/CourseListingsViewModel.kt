@@ -5,9 +5,11 @@ import androidx.compose.runtime.currentRecomposeScope
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.setValue
+import androidx.compose.ui.platform.LocalContext
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import com.courses.tracker.domain.repository.CourseRepository
+import com.courses.tracker.util.DataStoreUtil
 import com.courses.tracker.util.Resource
 import dagger.hilt.android.lifecycle.HiltViewModel
 import kotlinx.coroutines.FlowPreview
@@ -23,9 +25,7 @@ import javax.inject.Inject
 class CourseListingsViewModel @Inject constructor(
     private val repository: CourseRepository
 ) : ViewModel() {
-
     var state by mutableStateOf(CourseListingsState())
-
 
     private var searchJob: Job? = null
 

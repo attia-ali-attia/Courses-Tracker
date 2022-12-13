@@ -1,34 +1,53 @@
 package com.courses.tracker.presentation.course_listings
 
+import android.content.res.Configuration
 import android.util.Log
 import androidx.compose.foundation.layout.*
-import androidx.compose.material3.FloatingActionButton
-import androidx.compose.material3.Icon
-import androidx.compose.material3.MaterialTheme
-import androidx.compose.material3.Text
-import androidx.compose.runtime.Composable
+import androidx.compose.material.icons.Icons
+import androidx.compose.material.icons.materialIcon
+import androidx.compose.material.icons.rounded.ExitToApp
+import androidx.compose.material3.*
+import androidx.compose.runtime.*
+import androidx.compose.ui.Alignment
 import androidx.compose.ui.Alignment.Companion.BottomEnd
 import androidx.compose.ui.Alignment.Companion.CenterHorizontally
+import androidx.compose.ui.Alignment.Companion.Start
+import androidx.compose.ui.Alignment.Companion.TopStart
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.draw.paint
+import androidx.compose.ui.graphics.vector.ImageVector
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.res.painterResource
 import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.text.style.TextAlign
 import androidx.compose.ui.unit.dp
 import androidx.hilt.navigation.compose.hiltViewModel
 import com.courses.tracker.R
+import com.courses.tracker.ThemeViewModel
 import com.courses.tracker.domain.model.DayOfWeek
 import com.courses.tracker.presentation.destinations.AddEditCourseDialogDestination
+import com.courses.tracker.util.DataStoreUtil
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.annotation.RootNavGraph
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
+import kotlinx.coroutines.launch
 
 
 @Composable
 @RootNavGraph(start = true)
 @Destination
 fun CourseListingsScreen(
-    navigator: DestinationsNavigator, viewModel: CourseListingsViewModel = hiltViewModel()
+    navigator: DestinationsNavigator,
+    themeViewModel: ThemeViewModel = hiltViewModel(),
+    dataStoreUtil: DataStoreUtil= DataStoreUtil(LocalContext.current.applicationContext),
+    viewModel: CourseListingsViewModel = hiltViewModel()
 ) {
+    val state = viewModel.state
+
+
+    var switchState = themeViewModel.getTheme().collectAsState(initial = false).value
+    val coroutineScope = rememberCoroutineScope()
+
     courseActions = AddInsertCourseDialogActions(
         onCourseInserted = {
             Log.i("TAG", "CourseListingsScreen: Insert ${it.name}")
@@ -60,19 +79,48 @@ fun CourseListingsScreen(
 //        )
 //    }
 
-    val state = viewModel.state
     Box {
         Column(
             modifier = Modifier.fillMaxSize(), horizontalAlignment = CenterHorizontally
         ) {
-            Text(
-                text = stringResource(id = R.string.app_name),
-                style = MaterialTheme.typography.headlineMedium,
-                textAlign = TextAlign.Center,
-                modifier = Modifier
-                    .fillMaxWidth()
-                    .padding(16.dp)
-            )
+            Row(horizontalArrangement = Arrangement.SpaceEvenly) {
+                Text(
+                    text = stringResource(id = R.string.app_name),
+                    style = MaterialTheme.typography.headlineMedium,
+                    textAlign = TextAlign.Center,
+                    modifier = Modifier
+                        .padding(16.dp)
+                )
+
+
+                val darkIcon = painterResource(R.drawable.ic_moon)
+                val lightIcon = painterResource(R.drawable.ic_sun)
+                Switch(
+                    modifier = Modifier
+                        .padding(16.dp),
+                    checked = switchState,
+                    onCheckedChange = {
+                        switchState = it
+
+                        coroutineScope.launch {
+                            dataStoreUtil.saveTheme(it)
+                        }
+                    },
+                    thumbContent = {
+                        Icon(
+                            modifier = Modifier
+                                .size(SwitchDefaults.IconSize),
+                            painter = if (switchState) darkIcon else lightIcon,
+                            contentDescription = "Dark Mode Switch Icon"
+                        )
+                    },
+                    colors = SwitchDefaults.colors(
+                        checkedTrackColor = MaterialTheme.colorScheme.primary,
+                        checkedThumbColor = MaterialTheme.colorScheme.onPrimary,
+                    )
+                )
+            }
+
             Spacer(modifier = Modifier.height(8.dp))
             if (state.courses.isEmpty()) {
                 Text(

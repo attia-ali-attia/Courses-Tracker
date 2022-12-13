@@ -80,13 +80,14 @@ dependencies {
     implementation "androidx.compose.ui:ui-tooling-preview:$compose_version"
     def material3_version = "1.0.1"
     implementation "androidx.compose.material3:material3:$material3_version"
-//    implementation "androidx.compose.material:material:$compose_version"
+
+    //Datastore
+    implementation "androidx.datastore:datastore-preferences:1.0.0"
 
     // Compose Nav Destinations
     implementation 'io.github.raamcosta.compose-destinations:core:1.5.9-beta'
     ksp 'io.github.raamcosta.compose-destinations:ksp:1.5.9-beta'
 
-//    implementation "androidx.navigation:navigation-compose:2.6.0-alpha02"
 
     //Dagger - Hilt
     implementation "com.google.dagger:hilt-android:2.40.5"
