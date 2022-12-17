@@ -52,4 +52,4 @@
 ## Architecture
 This app uses [***MVI (Model View Intent)***](https://developer.android.com/topic/architecture) architecture.
 
-[<img src="https://developer.android.com/static/topic/libraries/architecture/images/mad-arch-overview-data.png" width="250"/>](https://developer.android.com/static/topic/libraries/architecture/images/mad-arch-overview-data.png)
+[<img src="https://developer.android.com/static/topic/libraries/architecture/images/mad-arch-overview-data.png" width="350"/>](https://developer.android.com/static/topic/libraries/architecture/images/mad-arch-overview-data.png)
