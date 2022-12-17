@@ -7,7 +7,7 @@
 
 ***You can Install Courses Tracker app from below 👇***
 
-[![Courses Tracker App](https://www.svgrepo.com/show/303139/google-play-badge-logo.svg)](https://github.com/PatilShreyas/Foodium/releases/latest/download/app.apk)
+[Courses Tracker App](https://play.google.com/store/apps/details?id=com.moez.QKSMSK link)
 
 
 ## Built With 🛠
