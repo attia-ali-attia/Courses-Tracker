@@ -1,12 +1,10 @@
+![](media/FoodiumHeader.png)
 # Courses-Tracker
-
 
 [![GitHub license](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
 **Courses Tracker** is an Android application 📱 built to help instructors🧑‍🏫 create & track all of thier courses - progress, students, how much they paid, and many more… 
-
 ***You can Install latest Courses Tracker app from below 👇***
-
 [![Courses Tracker App](https://www.svgrepo.com/show/303139/google-play-badge-logo.svg)](https://github.com/PatilShreyas/Foodium/releases/latest/download/app.apk)
 
 
@@ -25,3 +23,27 @@
 - [Material3](https://m3.material.io/) - The latest version of Google’s open-source design system..
 - [Gradle Kotlin DSL](https://docs.gradle.org/current/userguide/kotlin_dsl.html) - For writing Gradle build scripts using Kotlin.
 
+
+# Package Structure
+    
+    com.courses.tracker    # Root Package
+    .
+    ├── data                # For data handling.
+    │   ├── local           # Local Persistence Database. Room (SQLite) database
+    |   │   └── entity      # Data Access Object for Room   
+    |   ├── mapper          # Convert domain model to Room Dao and vise versa
+    │   └── repository      # Single source of data.
+    ├── di                  # Dependency Injection 
+    │
+    ├── domain
+    |   ├── model           # Model classes
+    |   └── repository      # Interface define methods to be implemented in data layer.     
+    |
+    ├── presentation
+    │   ├── course_listings  # Classes related to courses screen
+    │   └── student_infos    # Classes related to students screen
+    │
+    │
+    ├── ui/theme                  # Everything about Compose theme
+    |
+    └── utils               # Utility Classes / Kotlin extensions
