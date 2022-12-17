@@ -59,7 +59,7 @@ fun StudentInfosScreen(
             Spacer(modifier = Modifier.height(8.dp))
             if (state.students.isEmpty()) {
                 Text(
-                    text = stringResource(id = R.string.there_is_nothing),
+                    text = stringResource(id = R.string.there_is_no_students_added),
                     textAlign = TextAlign.Center
                 )
             } else {

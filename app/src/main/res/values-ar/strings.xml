@@ -1,0 +1,23 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">متابعة الكورسات</string>
+    <string name="there_is_no_courses">مفيش كورسات ممكن تضيف من علامة الزائد</string>
+    <string name="there_is_no_students_added">مفيش طلاب ممكن تضيف من علامة الزائد!</string>
+    <string name="number_of_lessons">عدد الحصص: %d</string>
+    <string name="number_of_finished_lessons">عدد الحصص الي خلصت: %d</string>
+    <string name="cancel">الغاء</string>
+    <string name="insert">إضافة</string>
+    <string name="update">تعديل</string>
+    <string name="confirm">تأكيد</string>
+    <string name="click_again_to_delete">اضغط مرة أخرى للحذف</string>
+    <string name="name">الاسم</string>
+    <string name="price">السعر</string>
+    <string name="enter_number_of_lessons">عدد الحصص</string>
+    <string name="enter_number_of_finished_lessons">عدد الحصص المنتهية</string>
+    <string name="please_enter_lessons_number_first">من فضلك أدخل عدد الدروس أولا</string>
+    <string name="fill_empty_fields">عبي المعلومات بعد إذنك....</string>
+    <string name="paid">دفع</string>
+    <string name="phone_number">رقم الجوال</string>
+    <string name="this_paid">دفع: %d</string>
+    <string name="session_time">at %1$s</string>
+</resources>

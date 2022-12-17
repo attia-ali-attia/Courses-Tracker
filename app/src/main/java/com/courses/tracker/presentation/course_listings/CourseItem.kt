@@ -24,6 +24,10 @@ import androidx.compose.ui.unit.dp
 import androidx.compose.ui.unit.sp
 import com.courses.tracker.R
 import com.courses.tracker.domain.model.Course
+import com.courses.tracker.util.DAY_ITEM_CORNERS_SHAPE
+
+private const val COURSE_NAME_WEIGHT = 6f
+private const val DAY_LETTERS_THRESHOLD = 3
 
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
@@ -39,8 +43,13 @@ fun CourseItem(
     fontWeight: FontWeight = FontWeight.SemiBold,
     fontSize: TextUnit = MaterialTheme.typography.bodyMedium.fontSize,
 ) {
-    val backgroundColors =
+    val lightThemeColors =
         listOf("CDF0EA", "F9F9F9", "ECC5FB", "FAF4B7", "B1D7B4", "F29393", "59CE8F")
+    val darkThemeColor =
+        listOf("4C3957", "414073", "41658A", "623CEA", "54426B", "241023", "A3320B")
+
+    val backgroundColors = if(MaterialTheme.colorScheme.isLight()) lightThemeColors else darkThemeColor
+
     Column(
         modifier = modifier
             .fillMaxSize()
@@ -60,7 +69,7 @@ fun CourseItem(
                 fontWeight = fontWeight,
                 fontSize = 20.sp,
                 modifier = Modifier
-                    .weight(6F)
+                    .weight(COURSE_NAME_WEIGHT)
                     .padding(5.dp)
             )
 
@@ -82,12 +91,16 @@ fun CourseItem(
         ) {
             items(course.scheduleDays.keys.toList()) { day ->
                 Text(
-                    text = day.name.substring(0, 3) + " " + stringResource(id = R.string.session_time, course.scheduleDays.get(day)!!),
+                    text = day.name.substring(0, DAY_LETTERS_THRESHOLD) + " "
+                            + stringResource(
+                        id = R.string.session_time,
+                        course.scheduleDays[day]!!
+                    ),
                     fontWeight = fontWeight,
                     fontSize = fontSize,
                     modifier = Modifier
                         .padding(5.dp)
-                        .border(1.dp, borderColor, RoundedCornerShape(2000F))
+                        .border(1.dp, borderColor, RoundedCornerShape(DAY_ITEM_CORNERS_SHAPE))
                         .padding(7.dp)
                 )
             }

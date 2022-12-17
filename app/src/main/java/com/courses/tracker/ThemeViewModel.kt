@@ -11,7 +11,7 @@ import javax.inject.Inject
 @HiltViewModel
 class ThemeViewModel @Inject constructor(@ApplicationContext appContext: Context): ViewModel() {
 
-    var dataStoreUtil = DataStoreUtil(appContext)
+    private val dataStoreUtil = DataStoreUtil(appContext)
 
 
     fun getTheme(): Flow<Boolean> {
