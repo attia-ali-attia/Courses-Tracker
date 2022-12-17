@@ -5,7 +5,8 @@
 
 **Courses Tracker** is an Android application 📱 built to help instructors🧑‍🏫 create & track all of thier courses - progress, students, how much they paid, and many more… 
 
-***You can Install latest Courses Tracker app from below 👇***
+***You can Install Courses Tracker app from below 👇***
+
 [![Courses Tracker App](https://www.svgrepo.com/show/303139/google-play-badge-logo.svg)](https://github.com/PatilShreyas/Foodium/releases/latest/download/app.apk)
 
 
