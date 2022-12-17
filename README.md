@@ -67,6 +67,3 @@ Have any questions, doubts or want to present your opinions, views? You're alway
 ## Contact
 If you need any help, you can connect with me on [Linkedin](https://www.linkedin.com/in/attia-ali-attia/).
 
-              
-
-Visit:- [shreyaspatil.dev](https://shreyaspatil.dev
