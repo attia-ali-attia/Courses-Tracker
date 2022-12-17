@@ -9,6 +9,11 @@
 
 [![Courses Tracker App](https://www.svgrepo.com/show/303139/google-play-badge-logo.svg)](https://github.com/PatilShreyas/Foodium/releases/latest/download/app.apk)
 
+## Features
+- Create Courses & check how much students should pay💵.
+- Track the progress of each student🧑‍🎓.
+- Clean and Simple Material UI.
+- It supports dark theme too 🌗.
 
 ## Built With 🛠
 - [Kotlin](https://kotlinlang.org/) - First class and official programming language for Android development.
@@ -54,3 +59,12 @@ This app uses [***MVI (Model View Intent)***](https://developer.android.com/topi
 
 
 ![](https://developer.android.com/static/topic/libraries/architecture/images/mad-arch-overview-domain.png)
+
+## Discuss 💬
+
+Have any questions, doubts or want to present your opinions, views? You're always welcome. You can [start discussions](https://github.com/attia-ali-attia/Courses-Tracker/discussions).
+
+## Contact
+If you need any help, you can connect with me.
+
+Visit:- [shreyaspatil.dev](https://shreyaspatil.dev
