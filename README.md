@@ -65,7 +65,7 @@ This app uses [***MVI (Model View Intent)***](https://developer.android.com/topi
 Have any questions, doubts or want to present your opinions, views? You're always welcome. You can [start discussions](https://github.com/attia-ali-attia/Courses-Tracker/discussions).
 
 ## Contact
-If you need any help, you can connect with me on [![Linkedin](https://brand.linkedin.com/content/dam/me/business/en-us/amp/brand-site/v2/bg/LI-Bug.svg.original.svg)](https://www.linkedin.com/in/attia-ali-attia/).
+If you need any help, you can connect with me on [Linkedin](https://www.linkedin.com/in/attia-ali-attia/).
 
               
 
