@@ -29,11 +29,14 @@ import androidx.compose.ui.unit.Dp
 import androidx.compose.ui.unit.TextUnit
 import androidx.compose.ui.unit.dp
 import com.courses.tracker.domain.model.Course
+import com.courses.tracker.domain.model.Hour
+import com.courses.tracker.domain.model.Minute
 import com.courses.tracker.presentation.destinations.AddEditCourseDialogDestination
 import com.courses.tracker.presentation.destinations.StudentInfosScreenDestination
 import com.courses.tracker.ui.theme.Shapes
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 import java.util.*
+import kotlin.math.absoluteValue
 
 private const val TITLE_WEIGHT = 6f
 
@@ -123,27 +126,26 @@ internal fun ExpandableCard(
 
 @Composable
 fun timePickerDialog(
-    hour: Int? = null, minute: Int? = null, onTimeSetListener: (String) -> Unit
+    hour: Int? = null, minute: Int? = null, onTimeSetListener: (Hour, Minute) -> Unit
 ): TimePickerDialog {
 
     val calendar = Calendar.getInstance()
     val hourNow = calendar[Calendar.HOUR_OF_DAY]
     val minuteNow = calendar[Calendar.MINUTE]
 
-    val time = remember { mutableStateOf("") }
+    val hourState = remember { mutableStateOf(0) }
+    val minuteState = remember { mutableStateOf(0) }
 
     val timePickerDialog = TimePickerDialog(
         LocalContext.current,
         { _, hour: Int, minute: Int ->
-            val builder = StringBuilder()
-            if (hour <= 9) builder.append("0$hour")
-            else builder.append(hour.toString())
-            builder.append(":")
-            if (minute <= 9) builder.append("0$minute")
-            else builder.append(minute.toString())
+            hourState.value = if (hour <= 9)  "0$hour".toInt()
+                else hour
 
-            time.value = builder.toString()
-            onTimeSetListener(time.value)
+            minuteState.value = if (minute <= 9) "0$minute".toInt()
+            else minute
+
+            onTimeSetListener(Hour(hourState.value), Minute(minuteState.value))
         },
         hour ?: hourNow, minute ?: minuteNow, false,
     )

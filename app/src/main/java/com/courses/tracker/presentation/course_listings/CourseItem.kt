@@ -89,12 +89,12 @@ fun CourseItem(
             horizontalArrangement = Arrangement.Start,
             verticalAlignment = Alignment.CenterVertically
         ) {
-            items(course.scheduleDays.keys.toList()) { day ->
+            items(course.daysHourMinute.keys.toList()) { day ->
                 Text(
                     text = day.name.substring(0, DAY_LETTERS_THRESHOLD) + " "
                             + stringResource(
                         id = R.string.session_time,
-                        course.scheduleDays[day]!!
+                        " ${course.daysHourMinute[day]!!.first.field}:${course.daysHourMinute[day]!!.second.field}"
                     ),
                     fontWeight = fontWeight,
                     fontSize = fontSize,

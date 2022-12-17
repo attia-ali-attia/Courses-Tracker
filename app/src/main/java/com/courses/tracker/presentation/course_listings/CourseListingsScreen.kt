@@ -130,9 +130,10 @@ fun CourseListingsScreen(
                 Column {
                     for (day in DayOfWeek.values()) {
                         ExpandableCard(title = day.name, courses = state.courses.filter {
-                            it.scheduleDays.contains(day)
+                            it.daysHourMinute.contains(day)
                         }.sortedBy {
-                            it.scheduleDays[day]
+                            //todo
+                            it.daysHourMinute[day].toString()
                         }, navigator = navigator, onDeleteCourseClicked = {
                             viewModel.onEvent(CourseListingsEvent.OnCourseDelete(it))
                         })

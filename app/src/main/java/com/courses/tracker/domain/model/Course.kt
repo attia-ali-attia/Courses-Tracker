@@ -1,15 +1,29 @@
 package com.courses.tracker.domain.model
 
 
+import android.os.Parcel
 import android.os.Parcelable
+import kotlinx.parcelize.Parceler
 import kotlinx.parcelize.Parcelize
+import kotlinx.parcelize.TypeParceler
 
 @Parcelize
+@TypeParceler<Map<DayOfWeek, Pair<Hour, Minute>>, HourMinutePairParceler>()
 data class Course(
     val name: String,
-    val scheduleDays: HashMap<DayOfWeek, String>,
+    val daysHourMinute: Map<DayOfWeek, Pair<Hour, Minute>>,
     val price: Int,
     val numberOfLessons: Int,
     val numberOfFinishedLessons: Int,
     val id: Int = 0
 ): Parcelable
+
+object HourMinutePairParceler : Parceler<Map<DayOfWeek, Pair<Hour, Minute>>> {
+    override fun create(parcel: Parcel): Map<DayOfWeek, Pair<Hour, Minute>> {
+        return stringToHourMinuteHashmap(parcel.readString()!!)
+    }
+
+    override fun Map<DayOfWeek, Pair<Hour, Minute>>.write(parcel: Parcel, flags: Int) {
+        parcel.writeString(fromHourMinuteHashmapToString(this))
+    }
+}

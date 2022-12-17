@@ -1,6 +1,7 @@
 package com.courses.tracker.presentation.course_listings
 
 
+import android.util.Log
 import android.widget.Toast
 import androidx.compose.foundation.*
 import androidx.compose.foundation.layout.*
@@ -26,11 +27,13 @@ import androidx.compose.ui.unit.dp
 import com.courses.tracker.R
 import com.courses.tracker.domain.model.Course
 import com.courses.tracker.domain.model.DayOfWeek
+import com.courses.tracker.domain.model.Hour
+import com.courses.tracker.domain.model.Minute
 import com.courses.tracker.util.DAY_ITEM_CORNERS_SHAPE
 import com.ramcosta.composedestinations.annotation.Destination
 import com.ramcosta.composedestinations.navigation.DestinationsNavigator
 
-internal val EMPTY_COURSE = Course("", HashMap(), 0, 0, 0)
+internal val EMPTY_COURSE = Course("", emptyMap(), 0, 0, 0)
 
 @OptIn(ExperimentalMaterial3Api::class)
 @Destination(style = AddEditDialogDestinationStyle::class)
@@ -43,7 +46,7 @@ fun AddEditCourseDialog(
     val action = if (new) courseActions?.onCourseInserted else courseActions?.onCourseUpdated
 
     var courseName by rememberSaveable { mutableStateOf(course.name) }
-    val courseSchedule by rememberSaveable { mutableStateOf(course.scheduleDays) }
+    val courseSchedule by rememberSaveable { mutableStateOf(course.daysHourMinute.toMutableMap()) }
     var coursePrice by rememberSaveable { mutableStateOf(course.price) }
     var numberOfLessons by rememberSaveable { mutableStateOf(course.numberOfLessons) }
     var numberOfFinishedLessons by rememberSaveable { mutableStateOf(course.numberOfFinishedLessons) }
@@ -120,6 +123,7 @@ fun AddEditCourseDialog(
 
             val canSubmit = courseName.isNotEmpty() && courseSchedule.isNotEmpty() &&
                     coursePrice != 0 && numberOfLessons != 0
+            Log.i("TAG", "AddEditCourseDialog: ${courseSchedule.isNotEmpty()}")
             ActionButtons(Modifier.align(Alignment.End), canSubmit, new) {
                 action?.invoke(
                     Course(
@@ -136,9 +140,10 @@ fun AddEditCourseDialog(
         }
     }
 }
+
 @OptIn(ExperimentalFoundationApi::class)
 @Composable
-private fun DaysRow(courseSchedule: HashMap<DayOfWeek, String>) {
+private fun DaysRow(courseSchedule: MutableMap<DayOfWeek, Pair<Hour, Minute>>) {
     LazyRow(
         horizontalArrangement = Arrangement.Start,
         verticalAlignment = Alignment.CenterVertically,
@@ -153,12 +158,13 @@ private fun DaysRow(courseSchedule: HashMap<DayOfWeek, String>) {
                 )
             }
 
-            val hourAndMinute = courseSchedule[day]?.split(":")
+//            val hourAndMinute = courseSchedule[day]?.split(":")
+
             val pickerDialog = timePickerDialog(
-                hourAndMinute?.firstOrNull()?.toIntOrNull(),
-                hourAndMinute?.get(1)?.toIntOrNull()
-            ) {
-                courseSchedule[day] = it
+                courseSchedule[day]?.first?.field,
+                courseSchedule[day]?.second?.field
+            ) { hour, minute ->
+                courseSchedule[day] = Pair(hour, minute)
                 dayContained = true
             }
             Text(

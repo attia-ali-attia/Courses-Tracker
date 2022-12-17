@@ -1,21 +1,19 @@
 package com.courses.tracker.data.local
 
-import android.util.Log
 import androidx.room.TypeConverter
+import com.courses.tracker.domain.model.*
 
 class Converters {
-    @TypeConverter
-    fun fromListOfIntegers(listOfDays: List<Int>): String {
-        val stringBuilder = StringBuilder()
-        for (day in listOfDays) {
-            stringBuilder.append("$day,")
-        }
-        stringBuilder.deleteCharAt(stringBuilder.lastIndex)
-        return stringBuilder.toString()
-    }
 
     @TypeConverter
-    fun stringToListOfIntegers(days: String): List<Int> {
-        return days.split(",").map { it.toInt() }
+    fun fromHashmapToString(daysHourMinute: Map<DayOfWeek, Pair<Hour, Minute>>): String {
+        return fromHourMinuteHashmapToString(daysHourMinute)
+    }
+
+
+
+    @TypeConverter
+    fun stringToHashmap(daysHourMinuteString: String): Map<DayOfWeek, Pair<Hour, Minute>> {
+        return stringToHourMinuteHashmap(daysHourMinuteString)
     }
 }
