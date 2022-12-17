@@ -128,7 +128,7 @@ fun AddEditCourseDialog(
                 action?.invoke(
                     Course(
                         courseName,
-                        courseSchedule,
+                        courseSchedule.toMap(),
                         coursePrice,
                         numberOfLessons,
                         numberOfFinishedLessons,

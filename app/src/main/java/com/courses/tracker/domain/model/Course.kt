@@ -16,14 +16,19 @@ data class Course(
     val numberOfLessons: Int,
     val numberOfFinishedLessons: Int,
     val id: Int = 0
-): Parcelable
+) : Parcelable
 
 object HourMinutePairParceler : Parceler<Map<DayOfWeek, Pair<Hour, Minute>>> {
     override fun create(parcel: Parcel): Map<DayOfWeek, Pair<Hour, Minute>> {
-        return stringToHourMinuteHashmap(parcel.readString()!!)
+        val stringtoMap = parcel.readString() ?: ""
+        return if (stringtoMap.isNotEmpty())
+            stringToHourMinuteHashmap(stringtoMap)
+        else
+            emptyMap()
     }
 
     override fun Map<DayOfWeek, Pair<Hour, Minute>>.write(parcel: Parcel, flags: Int) {
-        parcel.writeString(fromHourMinuteHashmapToString(this))
+        if (this.isNotEmpty())
+            parcel.writeString(fromHourMinuteHashmapToString(this))
     }
 }
