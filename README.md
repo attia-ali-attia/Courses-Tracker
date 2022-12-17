@@ -45,7 +45,11 @@
     │   ├── course_listings  # Classes related to courses screen
     │   └── student_infos    # Classes related to students screen
     │
-    │
     ├── ui/theme                  # Everything about Compose theme
     |
     └── utils               # Utility Classes / Kotlin extensions
+    
+## Architecture
+This app uses [***MVI (Model View Intent)***](https://developer.android.com/topic/architecture) architecture.
+
+![](https://developer.android.com/static/topic/libraries/architecture/images/mad-arch-overview-data.png)
