@@ -7,7 +7,7 @@
 
 ***You can Install Courses Tracker app from below 👇***
 
-[Courses Tracker App](https://play.google.com/store/apps/details?id=com.moez.QKSMSK link)
+[Courses Tracker App](https://play.google.com/store/apps/details?id=com.moez.QKSMSK)
 
 
 ## Built With 🛠
