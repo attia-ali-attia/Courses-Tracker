@@ -1,4 +1,4 @@
-![](media/FoodiumHeader.png)
+![](media/screensdesign.png)
 # Courses-Tracker
 
 **Courses Tracker** is an Android application 📱 built to help instructors🧑‍🏫 create & track all of thier courses - progress, students, how much they paid, and many more… 
