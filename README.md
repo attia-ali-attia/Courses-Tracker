@@ -5,7 +5,7 @@
 
 ***You can Install Courses Tracker app from below 👇***
 
-[![Courses Tracker App](https://www.svgrepo.com/show/303139/google-play-badge-logo.svg)](https://www.svgrepo.com/show/303139/google-play-badge-logo.svg)
+[![Courses Tracker App](https://www.svgrepo.com/show/303139/google-play-badge-logo.svg)](https://play.google.com/store/apps/details?id=com.courses.tracker)
 
 ## Features
 - Create Courses & check how much students should pay💵.
